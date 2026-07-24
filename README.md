@@ -46,3 +46,54 @@ for tool in "${tools[@]}"; do
     fi
 done
 ```
+
+#### PowerShell System PATH Check
+```powershell
+$tools = @("git", "docker", "kubectl", "helm", "terraform", "aws", "gcloud", "az", "kubectx", "stern", "kind", "k9s", "jq", "python", "go", "node")
+
+Write-Host "=== PowerShell Environment Audit ===" -ForegroundColor Cyan
+foreach ($t in$tools) {
+    $found = Get-Command$t -ErrorAction SilentlyContinue
+    if ($found) {
+        Write-Host " [✓] $t -> $($found.Source)" -ForegroundColor Green
+    } else {
+        Write-Host " [X] $t NOT found in PATH" -ForegroundColor Red
+    }
+}
+```
+
+### 2. Runtime, Binary & Cloud Smoke-Test
+
+#### Run this single consolidated bash block in Git Bash to verify binary versions, test public cloud endpoint responsiveness, and perform a local Kubernetes cluster smoke-test:
+
+```bash
+# --- A. Check Runtime & Tool Binary Versions ---
+echo "=== Runtime & Binary Versions ==="
+python --version
+go version
+node -v
+terraform --version
+docker --version
+kubectl version --client --output=yaml | grep gitVersion
+helm version --short
+jq --version
+yq --version
+
+# --- B. Test Public Cloud Endpoints ---
+echo "=== Public Cloud Identity Checks ==="
+aws sts get-caller-identity || echo "[!] AWS CLI not configured yet."
+gcloud info --format="value(config.account)" || echo "[!] GCP CLI not authenticated yet."
+az account show --query name -o tsv || echo "[!] Azure CLI not logged in yet."
+
+# --- C. Local Kubernetes Smoke-Test ---
+echo "=== Local Kubernetes (Kind) Test ==="
+kind create cluster --name dev-cluster
+kubectl get nodes
+kubectl cluster-info
+kind delete cluster --name dev-cluster
+```
+
+## License & Usage
+```
+This repository is maintained for local workstation initialization, platform engineering onboarding, and operational reference. Feel free to adapt and distribute across your organization.
+```
