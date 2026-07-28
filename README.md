@@ -35,12 +35,12 @@ ssh -T git@github.com
 ### 1. Automated Terminal PATH Audit
 #### Git Bash Environment Check
 ```bash
-tools=("git" "docker" "kubectl" "helm" "terraform" "aws" "gcloud" "az" "kubectx" "stern" "kind" "k9s" "jq" "python" "go" "node")
+tools=("git" "docker" "kubectl" "helm" "terraform" "aws" "gcloud" "az" "kubectx" "stern" "kind" "k9s" "jq" "yq" "python" "go" "node")
 
 echo "=== Git Bash Platform Environment Audit ==="
 for tool in "${tools[@]}"; do
     if command -v "$tool" &> /dev/null; then
-        echo -e " \033[0;32m[✓]\033[0m $tool -> $(which$tool)"
+        echo -e " \033[0;32m[✓]\033[0m $tool -> $(which "$tool")"
     else
         echo -e " \033[0;31m[x]\033[0m $tool NOT found"
     fi
@@ -49,11 +49,11 @@ done
 
 #### PowerShell System PATH Check
 ```powershell
-$tools = @("git", "docker", "kubectl", "helm", "terraform", "aws", "gcloud", "az", "kubectx", "stern", "kind", "k9s", "jq", "python", "go", "node")
+$tools = @("git", "docker", "kubectl", "helm", "terraform", "aws", "gcloud", "az", "kubectx", "stern", "kind", "k9s", "jq", "yq", "python", "go", "node")
 
 Write-Host "=== PowerShell Environment Audit ===" -ForegroundColor Cyan
-foreach ($t in$tools) {
-    $found = Get-Command$t -ErrorAction SilentlyContinue
+foreach ($t in $tools) {
+    $found = Get-Command $t -ErrorAction SilentlyContinue
     if ($found) {
         Write-Host " [✓] $t -> $($found.Source)" -ForegroundColor Green
     } else {
@@ -93,7 +93,10 @@ kubectl cluster-info
 kind delete cluster --name dev-cluster
 ```
 
+## Full Command Reference
+
+For the complete cheat sheet covering Git, Kubernetes, Helm, Terraform, cloud CLIs, Docker, and more, see [PLATFORM_ENGINEERING_COMMANDS.md](PLATFORM_ENGINEERING_COMMANDS.md).
+
 ## License & Usage
-```
+
 This repository is maintained for local workstation initialization, platform engineering onboarding, and operational reference. Feel free to adapt and distribute across your organization.
-```

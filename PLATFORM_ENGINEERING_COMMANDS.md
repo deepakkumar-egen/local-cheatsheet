@@ -2,6 +2,8 @@
 
 A comprehensive reference matrix for Git Workflows, Kubernetes Operations, Infrastructure as Code, Public Cloud CLIs, Containerization, and Runtime Environments.
 
+For workstation setup and environment audit scripts, see [README.md](README.md).
+
 ---
 
 ## 📌 Table of Contents
